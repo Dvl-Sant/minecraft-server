@@ -22,7 +22,7 @@ services:
       # ── IDENTIDAD / SEGURIDAD ──
       TZ: "America/Guayaquil"             # Ajusta a tu zona horaria
       ENABLE_RCON: "FALSE"                # Actívalo solo definiendo RCON_PASSWORD en Dokploy (.env)
-      ONLINE_MODE: "TRUE"                 # FALSE = modo offline / no-premium (cuentas crackeadas)
+      ONLINE_MODE: "FALSE"                # modo offline: permite cuentas no-premium (crackeadas)
 
       # ── JUGABILIDAD (editable) ──
       SERVER_NAME: "MiServidor"
@@ -40,9 +40,9 @@ services:
       # WHITELIST: "jugador1,jugador2"    # Lista blanca de usuarios
 
       # ── PLUGINS (Opción A: IaC, sin binarios en git) ──
-      # Descomenta y edita con tus slugs/IDs reales:
-      # MODRINTH_PROJECTS: "luckperms,essentialsx"
-      # SPIGET_RESOURCES: "28140"
+      # AuthMe: en modo offline obliga a registrar/login con contraseña (evita suplantación de nick)
+      MODRINTH_PROJECTS: "authmereloaded"
+      # SPIGET_RESOURCES: "..."
       # PLUGINS: "https://ejemplo.com/plugin.jar"
 
     ports:
