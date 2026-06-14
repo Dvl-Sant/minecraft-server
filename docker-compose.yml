@@ -1,0 +1,64 @@
+# IaC: servidor Minecraft (Paper) sobre itzg/minecraft-server para Dokploy
+# Dokploy lee este archivo en cada `git push` (Auto Deploy activado en la UI).
+
+services:
+  minecraft:
+    image: itzg/minecraft-server:java21   # Java 21 para MC modernos; fija tag para reproducibilidad
+    tty: true                             # 'docker attach' -> consola OP in-game
+    stdin_open: true
+    restart: unless-stopped
+
+    environment:
+      # ── OBLIGATORIO: evita crash de arranque ──
+      EULA: "TRUE"                        # Acepta el EULA de Mojang
+
+      # ── TIPO Y VERSIÓN ──
+      TYPE: "PAPER"                       # VANILLA | PAPER | FABRIC | FORGE
+      VERSION: "LATEST"                   # LATEST o fija: 1.21.1, 1.20.4...
+
+      # ── RECURSOS (presupuesto total ~4G) ──
+      MEMORY: "3G"                        # Heap JVM (-Xms/-Xmx); el tope real está en mem_limit
+
+      # ── IDENTIDAD / SEGURIDAD ──
+      TZ: "America/Guayaquil"             # Ajusta a tu zona horaria
+      ENABLE_RCON: "FALSE"                # Actívalo solo definiendo RCON_PASSWORD en Dokploy (.env)
+      ONLINE_MODE: "TRUE"                 # FALSE = modo offline / no-premium (cuentas crackeadas)
+
+      # ── JUGABILIDAD (editable) ──
+      SERVER_NAME: "MiServidor"
+      MOTD: "Servidor en Dokploy"
+      DIFFICULTY: "normal"                # peaceful | easy | normal | hard
+      MODE: "survival"                    # survival | creative | adventure | spectator
+      LEVEL: "world"
+      VIEW_DISTANCE: "10"
+      SPAWN_PROTECTION: "16"
+      MAX_PLAYERS: "20"
+      PVP: "TRUE"
+      ALLOW_NETHER: "TRUE"
+      ENABLE_COMMAND_BLOCK: "TRUE"
+      # OPS: "uuid1,uuid2"                # OPs por UUID separados por coma
+      # WHITELIST: "jugador1,jugador2"    # Lista blanca de usuarios
+
+      # ── PLUGINS (Opción A: IaC, sin binarios en git) ──
+      # Descomenta y edita con tus slugs/IDs reales:
+      # MODRINTH_PROJECTS: "luckperms,essentialsx"
+      # SPIGET_RESOURCES: "28140"
+      # PLUGINS: "https://ejemplo.com/plugin.jar"
+
+    ports:
+      - "25565:25565/tcp"                 # Puerto de juego TCP (acceso directo, sin Traefik)
+
+    volumes:
+      # Persistencia ESTRICTA del mundo (volumen nombrado = soporta Volume Backups en Dokploy)
+      - minecraft-data:/data
+
+    mem_limit: 4g                         # Tope duro del contenedor (~4G totales con overhead JVM)
+    healthcheck:
+      test: ["CMD", "mc-health"]
+      start_period: 3m                    # El 1er arranque genera el mundo: puede tardar minutos
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  minecraft-data:

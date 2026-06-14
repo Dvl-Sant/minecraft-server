@@ -1,0 +1,43 @@
+# ===== Secretos / entorno local =====
+.env
+.env.*
+
+# ===== Datos del mundo (NUNCA subir a git) =====
+data/
+world/
+world_nether/
+world_the_end/
+*.mca
+*.mcr
+region/
+playerdata/
+cache/
+
+# ===== Plugins / Mods binarios (pesados) =====
+*.jar
+mods/
+
+# ===== Backups y logs =====
+backup/
+backups/
+*.bak
+*.tar
+*.tar.gz
+*.zip
+logs/
+*.log
+
+# ===== Estado / base de datos =====
+*.sqlite
+*.sqlite3
+*.db
+*.lock
+
+# ===== SO / Editor =====
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.iml
+*.swp
