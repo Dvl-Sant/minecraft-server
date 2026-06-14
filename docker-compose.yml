@@ -3,7 +3,7 @@
 
 services:
   minecraft:
-    image: itzg/minecraft-server:java21   # Java 21 para MC modernos; fija tag para reproducibilidad
+    image: itzg/minecraft-server:java25   # Java 25 (requerido por MC 26.1+); fija tag para reproducibilidad
     tty: true                             # 'docker attach' -> consola OP in-game
     stdin_open: true
     restart: unless-stopped
