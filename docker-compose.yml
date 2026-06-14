@@ -41,7 +41,8 @@ services:
 
       # ── PLUGINS (Opción A: IaC, sin binarios en git) ──
       # AuthMe: en modo offline obliga a registrar/login con contraseña (evita suplantación de nick)
-      MODRINTH_PROJECTS: "authmereloaded"
+      # SkinsRestorer: /skin <nick_premium> aplica skins en modo offline
+      MODRINTH_PROJECTS: "authmereloaded,skinsrestorer"
       # SPIGET_RESOURCES: "..."
       # PLUGINS: "https://ejemplo.com/plugin.jar"
 
